@@ -18,6 +18,9 @@ void setup() {
 void loop() {
   b1state = digitalRead(button1);
   b2state = digitalRead(button2);
+  analogWrite(r,255);
+  analogWrite(g,255);
+  analogWrite(b,255);
   while(b1state== 1){
     delay(200);
     while(b1state == 1){
@@ -32,7 +35,7 @@ void loop() {
         c = b;
       }
       frq = analogRead(A0);
-      analogWrite(c,255);
+      analogWrite(c,0);
       for (int i=0; i <= frq; i++){
         frq = analogRead(A0);
         if(digitalRead(button1)==HIGH){
@@ -47,7 +50,7 @@ void loop() {
         }
         delay(1);
       }
-      analogWrite(c,0);
+      analogWrite(c,255);
       for (int i=0; i <= frq; i++){
         frq = analogRead(A0);
         if(digitalRead(button1)==HIGH){
@@ -72,21 +75,21 @@ void loop() {
       Serial.println(b2state);
       Serial.println(frq);
       delay(1);
-      frq = analogRead(A0);
+      frq = abs(analogRead(A0) - 1024);
       if(frq >= 0 && frq < 256){
         analogWrite(r,frq);
-        analogWrite(g,0);
-        analogWrite(b,0);
+        analogWrite(g,255);
+        analogWrite(b,255);
       }
       if(frq >= 256 && frq < 512){
         analogWrite(g,frq - 256);
         analogWrite(r,abs(frq - 512));
-        analogWrite(b,0);
+        analogWrite(b,255);
       }
       if(frq >= 512 && frq < 768){
         analogWrite(b,frq - 512);
         analogWrite(g,abs(frq - 768));
-        analogWrite(r,0);
+        analogWrite(r,255);
       }
       if(frq >= 768 && frq < 1024){
         invrtfrq = abs(frq - 1024);
@@ -96,9 +99,9 @@ void loop() {
       }
       if(digitalRead(button2) == 1){
         b2state = 0;
-        analogWrite(r,0);
-        analogWrite(g,0);
-        analogWrite(b,0);
+        analogWrite(r,255);
+        analogWrite(g,255);
+        analogWrite(b,255);
         delay(200);
       }
     }
